@@ -29,7 +29,7 @@ def speak(audio): #audio spoken by comp
 
 def greet(): #greeting by AI
     current_time = int(datetime.datetime.now().hour)
-     if current_time >= 0 and current_time < 12:
+    if current_time >= 0 and current_time < 12:
         speak('Good Morning!')
 
     if current_time >= 12 and current_time < 16:
