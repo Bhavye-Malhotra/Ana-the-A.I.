@@ -13,10 +13,10 @@ import sys
 
 #defining engine
 engine = pyttsx3.init("sapi5")
-engine.setProperty('rate',150)
+engine.setProperty('rate',130)
 
 #Client for search
-client = wolframalpha.Client('use your client id here')
+client = wolframalpha.Client('your client id goes here')
 #setting up voices
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[len(voices)-1].id)
@@ -63,6 +63,14 @@ def searchq(): #for searches query
         speak('Sorry sir! I didn\'t get that! Try typing the command!')
         query = str(input('Command: '))
     return query
+
+def sendEmail(to, content): #email configs
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.login('yourmail@gmail.com', 'password')
+    server.sendmail('yourmail@gmail.com', to, content)
+    server.close()
     
 #program begins
 greet()
@@ -93,6 +101,14 @@ while True:
             speak('okay')
             speak('Bye Sir, have a good day.')
             sys.exit()
+    elif 'play music' in query:
+        music_dir = 'F:\\Music' # replace it with your directory 
+        songs = os.listdir(music_dir)
+        x=random.randint(0,len(songs))
+        os.startfile(os.path.join(music_dir, songs[x]))
+        print('playing ' + songs[x])
+
+
 #searching things
     
     elif 'search youtube' in query:
@@ -103,7 +119,20 @@ while True:
         webbrowser.open('https://www.google.com/search?q=' + searchq())
 
 
-#using clients for seaerch
+
+    elif 'send email' in query:
+        try:
+            speak("What should I say?")
+            content = command()
+            to = "sendermail@gmail.com"    
+            sendEmail(to, content)
+            speak("Email has been sent!")
+        except Exception as e:
+            print(e)
+            speak("Sorry sir . I am not able to send this email")
+
+
+#using clients for search
 
     else:
         query = query
